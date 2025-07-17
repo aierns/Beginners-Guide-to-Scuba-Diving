@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-lang-key="pageTitle">首次潜水准备指南</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Noto Sans SC', 'Roboto', sans-serif;
+            background-color: #F7F9FB;
+            color: #374151;
+        }
+        .nav-link {
+            transition: color 0.3s, border-bottom-color 0.3s;
+            border-bottom: 2px solid transparent;
+        }
+        .nav-link:hover, .nav-link.active {
+            color: #1E40AF;
+            border-bottom-color: #1E40AF;
+        }
+        .card {
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+        }
+        .section-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #111827;
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+        .section-subtitle {
+            font-size: 1.125rem;
+            color: #4B5563;
+            text-align: center;
+            max-width: 600px;
+            margin: 0 auto 3rem auto;
+        }
+        details > summary {
+            list-style: none;
+            cursor: pointer;
+            font-weight: 500;
+        }
+        details > summary::-webkit-details-marker {
+            display: none;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 350px;
+            max-height: 400px;
+        }
+        @media (max-width: 768px) {
+            .chart-container {
+                height: 300px;
+            }
+        }
+        .breathing-visualizer {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background-color: #BFDBFE;
+            animation: breathe 5s infinite ease-in-out;
+            margin: 1rem auto;
+        }
+        .breathing-visualizer-inner {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background-color: #60A5FA;
+        }
+        @keyframes breathe {
+            0% { transform: scale(0.8); }
+            50% { transform: scale(1); }
+            100% { transform: scale(0.8); }
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <header class="bg-white/80 backdrop-blur-md shadow-sm sticky top-0 z-50">
+        <nav class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex-shrink-0">
+                    <h1 class="text-xl font-bold text-blue-800" data-lang-key="headerTitle">潜水新手指南</h1>
+                </div>
+                <div class="hidden md:flex items-center space-x-4">
+                    <a href="#pre-dive" class="nav-link px-3 py-2 rounded-md text-sm font-medium text-gray-700" data-lang-key="navPreDive">潜水前</a>
+                    <a href="#skills" class="nav-link px-3 py-2 rounded-md text-sm font-medium text-gray-700" data-lang-key="navSkills">重要技巧</a>
+                    <a href="#during-dive" class="nav-link px-3 py-2 rounded-md text-sm font-medium text-gray-700" data-lang-key="navDuringDive">潜水中</a>
+                    <a href="#post-dive" class="nav-link px-3 py-2 rounded-md text-sm font-medium text-gray-700" data-lang-key="navPostDive">潜水后</a>
+                    <a href="#faq" class="nav-link px-3 py-2 rounded-md text-sm font-medium text-gray-700" data-lang-key="navFAQ">常见问题</a>
+                    <button id="lang-switch-desktop" class="ml-4 px-3 py-2 rounded-md text-sm font-medium text-blue-700 hover:bg-blue-100 transition-colors">English</button>
+                </div>
+                <div class="md:hidden flex items-center">
+                     <select id="mobile-nav" class="bg-gray-200 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                        <option value="#pre-dive" data-lang-key="navPreDive">潜水前</option>
+                        <option value="#skills" data-lang-key="navSkills">重要技巧</option>
+                        <option value="#during-dive" data-lang-key="navDuringDive">潜水中</option>
+                        <option value="#post-dive" data-lang-key="navPostDive">潜水后</option>
+                        <option value="#faq" data-lang-key="navFAQ">常见问题</option>
+                    </select>
+                    <button id="lang-switch-mobile" class="ml-4 px-3 py-2 rounded-md text-sm font-medium text-blue-700 hover:bg-blue-100 transition-colors flex-shrink-0">English</button>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div class="text-center mb-16">
+            <h2 class="text-4xl md:text-5xl font-extrabold text-blue-900 tracking-tight" data-lang-key="mainTitle">开启你的第一次水下呼吸</h2>
+            <p class="mt-4 max-w-2xl mx-auto text-lg text-gray-600" data-lang-key="mainSubtitle">欢迎来到奇妙的水下世界！这份指南将帮助你安全、自信地完成首次潜水体验。</p>
+        </div>
+
+        <section id="pre-dive" class="my-24 scroll-mt-20">
+            <h3 class="section-title" data-lang-key="preDiveTitle">潜水前：准备工作</h3>
+            <p class="section-subtitle" data-lang-key="preDiveSubtitle">充分的准备是成功潜水的一半。请确保你已完成以下步骤，这将让你在水下更加从容和安心。</p>
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="card p-6">
+                    <h4 class="text-xl font-bold mb-3 text-blue-700" data-lang-key="healthTitle">1. 健康评估</h4>
+                    <p class="text-gray-600 mb-4" data-lang-key="healthDesc">诚实地评估你的健康状况。如果你有以下任何情况，请在潜水前咨询医生：</p>
+                    <ul class="space-y-2 text-sm">
+                        <li class="flex items-center"><span class="text-blue-500 mr-2">●</span><span data-lang-key="health1">心脏或心血管疾病</span></li>
+                        <li class="flex items-center"><span class="text-blue-500 mr-2">●</span><span data-lang-key="health2">哮喘或肺部疾病</span></li>
+                        <li class="flex items-center"><span class="text-blue-500 mr-2">●</span><span data-lang-key="health3">鼻窦、耳朵或呼吸道问题</span></li>
+                        <li class="flex items-center"><span class="text-blue-500 mr-2">●</span><span data-lang-key="health4">癫痫、糖尿病或意识丧失史</span></li>
+                        <li class="flex items-center"><span class="text-blue-500 mr-2">●</span><span data-lang-key="health5">怀孕</span></li>
+                    </ul>
+                </div>
+                <div class="card p-6">
+                    <h4 class="text-xl font-bold mb-3 text-blue-700" data-lang-key="shopTitle">2. 选择正规潜店</h4>
+                    <p class="text-gray-600 mb-4" data-lang-key="shopDesc">选择一家信誉良好、持有国际认证（如PADI, SSI）的潜水中心。</p>
+                    <ul class="space-y-2 text-sm">
+                         <li class="flex items-center"><span class="text-green-500 mr-2">✔</span><span data-lang-key="shop1">教练资质齐全</span></li>
+                         <li class="flex items-center"><span class="text-green-500 mr-2">✔</span><span data-lang-key="shop2">装备维护良好</span></li>
+                         <li class="flex items-center"><span class="text-green-500 mr-2">✔</span><span data-lang-key="shop3">小班教学（一位教练对少数学生）</span></li>
+                         <li class="flex items-center"><span class="text-green-500 mr-2">✔</span><span data-lang-key="shop4">清晰的安全简报流程</span></li>
+                    </ul>
+                </div>
+                <div class="card p-6">
+                    <h4 class="text-xl font-bold mb-3 text-blue-700" data-lang-key="prepTitle">3. 个人准备</h4>
+                    <p class="text-gray-600 mb-4" data-lang-key="prepDesc">潜水前保持良好状态，避免不适。</p>
+                    <ul class="space-y-2 text-sm">
+                        <li class="flex items-start"><span class="text-red-500 mr-2 mt-1">✖</span><span data-lang-key="prep1">潜水前8小时内不要饮酒。</span></li>
+                        <li class="flex items-start"><span class="text-red-500 mr-2 mt-1">✖</span><span data-lang-key="prep2">不要在疲劳或感冒时潜水。</span></li>
+                        <li class="flex items-start"><span class="text-green-500 mr-2 mt-1">✔</span><span data-lang-key="prep3">保持水分充足，但下水前不要喝太多。</span></li>
+                        <li class="flex items-start"><span class="text-green-500 mr-2 mt-1">✔</span><span data-lang-key="prep4">带上泳衣、毛巾、防晒霜和换洗衣物。</span></li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="skills" class="my-24 scroll-mt-20">
+            <h3 class="section-title" data-lang-key="skillsTitle">重要技巧：三大核心技能</h3>
+            <p class="section-subtitle" data-lang-key="skillsSubtitle">掌握这三个基本技巧是安全潜水的基石。你的教练会详细教授，但提前了解能让你学得更快。</p>
+            <div class="grid md:grid-cols-2 gap-8">
+                <div class="card p-8 text-center">
+                    <h4 class="text-2xl font-bold mb-3 text-blue-700" data-lang-key="skill1Title">技巧一：持续呼吸</h4>
+                    <p class="text-gray-600 mb-4" data-lang-key="skill1Desc">这是潜水的第一黄金法则：<strong class="text-red-600">永远不要憋气！</strong>始终保持深长、缓慢的呼吸，以避免肺部过压损伤。</p>
+                    <div class="breathing-visualizer">
+                        <div class="breathing-visualizer-inner"></div>
+                    </div>
+                    <p class="text-sm text-gray-500" data-lang-key="skill1Visual">想象你的呼吸像动画一样平稳。</p>
+                </div>
+                <div class="card p-8 text-center">
+                    <h4 class="text-2xl font-bold mb-3 text-blue-700" data-lang-key="skill2Title">技巧二：平衡耳压</h4>
+                    <p class="text-gray-600 mb-4" data-lang-key="skill2Desc">下潜时，水压会挤压你的耳朵。你需要主动平衡耳压以避免疼痛。应该在感到不适<strong class="text-blue-600">之前</strong>就开始做，并贯穿整个下潜过程。</p>
+                    <div id="equalize-methods" class="mt-4 text-left space-y-2">
+                        <p><strong data-lang-key="skill2Method">常用方法 (阀式法):</strong></p>
+                        <ol class="list-decimal list-inside text-gray-600 space-y-1">
+                            <li data-lang-key="skill2Step1">捏住鼻子。</li>
+                            <li data-lang-key="skill2Step2">闭上嘴巴。</li>
+                            <li data-lang-key="skill2Step3">轻轻地、持续地通过鼻子“呼气”，直到感觉耳朵“啵”地一声通了。</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+            <div class="card p-8 mt-8">
+                <h4 class="text-2xl font-bold mb-4 text-center text-blue-700" data-lang-key="skill3Title">技巧三：水下沟通 (基本手势)</h4>
+                <p class="text-center text-gray-600 mb-6" data-lang-key="skill3Desc">水下不能说话，手势是你的语言。点击下方卡片学习最重要的几个手势。</p>
+                <div id="hand-signals" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 text-center">
+                </div>
+            </div>
+        </section>
+
+        <section id="during-dive" class="my-24 scroll-mt-20">
+            <h3 class="section-title" data-lang-key="duringDiveTitle">潜水中：水下行为准则</h3>
+            <p class="section-subtitle" data-lang-key="duringDiveSubtitle">当你真正进入水下世界时，请牢记以下准则。它们不仅关乎你的安全，也体现了对海洋的尊重。</p>
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="card p-6 text-center border-t-4 border-blue-500">
+                    <div class="text-4xl mb-3">👂</div>
+                    <h4 class="font-bold text-lg" data-lang-key="rule1Title">勤做耳压平衡</h4>
+                    <p class="text-sm text-gray-600 mt-2" data-lang-key="rule1Desc">下潜时，每下潜一米或感到轻微压力时就做一次。脚朝下，头朝上更容易做。</p>
+                </div>
+                <div class="card p-6 text-center border-t-4 border-blue-500">
+                    <div class="text-4xl mb-3">🧑‍🤝‍🧑</div>
+                    <h4 class="font-bold text-lg" data-lang-key="rule2Title">紧跟潜伴和潜导</h4>
+                    <p class="text-sm text-gray-600 mt-2" data-lang-key="rule2Desc">始终与你的潜伴保持近距离，并随时注意潜导的位置和指示。</p>
+                </div>
+                <div class="card p-6 text-center border-t-4 border-blue-500">
+                    <div class="text-4xl mb-3">🐠</div>
+                    <h4 class="font-bold text-lg" data-lang-key="rule3Title">爱护海洋生物</h4>
+                    <p class="text-sm text-gray-600 mt-2" data-lang-key="rule3Desc">不要触摸、追逐或喂食任何海洋生物。我们是访客，请保持尊重。</p>
+                </div>
+                <div class="card p-6 text-center border-t-4 border-blue-500">
+                    <div class="text-4xl mb-3">⏱️</div>
+                    <h4 class="font-bold text-lg" data-lang-key="rule4Title">监控你的仪表</h4>
+                    <p class="text-sm text-gray-600 mt-2" data-lang-key="rule4Desc">经常检查你的残压表（空气余量）和深度计，并及时向潜导汇报。</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="post-dive" class="my-24 scroll-mt-20">
+            <h3 class="section-title" data-lang-key="postDiveTitle">潜水后：安全须知</h3>
+            <p class="section-subtitle" data-lang-key="postDiveSubtitle">潜水结束不代表完全放松。完成以下步骤，为你的潜水之旅画上圆满的句号，并为下一次潜水做好准备。</p>
+            <div class="grid md:grid-cols-2 gap-8 items-center">
+                <div class="card p-6">
+                    <h4 class="text-xl font-bold mb-3 text-blue-700" data-lang-key="postDiveProc">潜后流程</h4>
+                    <ul class="space-y-3">
+                        <li class="flex items-start"><span class="text-blue-500 font-bold mr-2">1.</span><span data-lang-key="postDive1">与教练 debriefing，交流潜水中的感受和遇到的问题。</span></li>
+                        <li class="flex items-start"><span class="text-blue-500 font-bold mr-2">2.</span><span data-lang-key="postDive2">清洗并归还装备。</span></li>
+                        <li class="flex items-start"><span class="text-blue-500 font-bold mr-2">3.</span><span data-lang-key="postDive3">记录你的潜水日志，这是宝贵的经验积累。</span></li>
+                        <li class="flex items-start"><span class="text-blue-500 font-bold mr-2">4.</span><span data-lang-key="postDive4">补充水分，好好休息。</span></li>
+                    </ul>
+                </div>
+                <div class="card p-6 bg-blue-50 border-l-4 border-blue-500">
+                    <h4 class="text-xl font-bold text-blue-800 mb-3 flex items-center"><span class="text-3xl mr-3">✈️</span><span data-lang-key="noFlyTitle">重要：潜水后禁飞时间</span></h4>
+                    <p class="text-blue-700" data-lang-key="noFlyDesc">潜水后体内会残留氮气，立即乘坐飞机会因压力变化导致减压病。请务必遵守安全表面间隔时间。</p>
+                    <div class="chart-container mt-4">
+                        <canvas id="noFlyChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="faq" class="my-24 scroll-mt-20">
+            <h3 class="section-title" data-lang-key="faqTitle">常见问题 (FAQ)</h3>
+            <p class="section-subtitle" data-lang-key="faqSubtitle">我们整理了一些新手最关心的问题。消除疑虑，能让你更专注于享受潜水的乐趣。</p>
+            <div class="max-w-3xl mx-auto space-y-4">
+                <details class="card p-5">
+                    <summary class="flex justify-between items-center text-lg font-medium text-gray-800">
+                        <span data-lang-key="q1">耳朵疼怎么办？</span>
+                        <span class="transform transition-transform duration-300 group-open:rotate-180 text-blue-600">+</span>
+                    </summary>
+                    <div class="mt-4 text-gray-600" data-lang-key="a1">
+                        <p>这是最常见的问题，通常是因为耳压没有平衡好。如果感到疼痛：<br>1. 立即停止下潜，并稍微上升一点点，直到疼痛消失。<br>2. 再次尝试平衡耳压。<br>3. 如果仍然无法平衡，不要强行下潜，应结束潜水并告知潜导。安全第一！</p>
+                    </div>
+                </details>
+                <details class="card p-5">
+                    <summary class="flex justify-between items-center text-lg font-medium text-gray-800">
+                        <span data-lang-key="q2">我会不会没气了？</span>
+                        <span class="transform transition-transform duration-300 group-open:rotate-180 text-blue-600">+</span>
+                    </summary>
+                    <div class="mt-4 text-gray-600" data-lang-key="a2">
+                        <p>这是一个非常可以理解的担忧，但几乎不可能发生。原因如下：<br>1. 你的气瓶在下水前会充满气。<br>2. 你和潜导都配有残压表，会时常监控空气余量。<br>3. 潜导会在你的空气到达安全余量（通常是50 bar）之前很久就开始带你上升。<br>4. 放松、平稳地呼吸可以有效节省用气。</p>
+                    </div>
+                </details>
+                <details class="card p-5">
+                    <summary class="flex justify-between items-center text-lg font-medium text-gray-800">
+                        <span data-lang-key="q3">在水下看到鲨鱼会攻击我吗？</span>
+                        <span class="transform transition-transform duration-300 group-open:rotate-180 text-blue-600">+</span>
+                    </summary>
+                    <div class="mt-4 text-gray-600" data-lang-key="a3">
+                        <p>得益于电影的“宣传”，这是新手的经典恐惧。事实上，绝大多数鲨鱼对潜水员没有兴趣。它们通常很害羞，看到你会主动避开。只要你保持冷静，不挑衅它们，能看到鲨鱼反而是一次幸运的经历。听从潜导的指引，安静地观察即可。</p>
+                    </div>
+                </details>
+                <details class="card p-5">
+                    <summary class="flex justify-between items-center text-lg font-medium text-gray-800">
+                        <span data-lang-key="q4">我近视怎么办？可以戴隐形眼镜吗？</span>
+                        <span class="transform transition-transform duration-300 group-open:rotate-180 text-blue-600">+</span>
+                    </summary>
+                    <div class="mt-4 text-gray-600" data-lang-key="a4">
+                        <p>完全可以。戴日抛型的软性隐形眼镜是最好的选择，即使进水冲掉了也不心疼。如果你不习惯戴隐形，也可以选择有度数的潜水面镜，很多潜店都提供租赁服务，可以提前咨询。</p>
+                    </div>
+                </details>
+            </div>
+        </section>
+
+    </main>
+    
+    <footer class="bg-gray-800 text-white mt-16">
+        <div class="container mx-auto py-6 px-4 sm:px-6 lg:px-8 text-center">
+            <p data-lang-key="footerEnjoy">祝您有一个安全、难忘的第一次潜水体验！</p>
+            <p class="text-sm text-gray-400 mt-2" data-lang-key="footerDisclaimer">本指南仅供参考，请始终遵循您的专业潜水教练的指导。</p>
+        </div>
+    </footer>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+
+        // --- 1. TRANSLATION DATA ---
+        const translations = {
+            zh: {
+                pageTitle: '首次潜水准备指南',
+                headerTitle: '潜水新手指南',
+                navPreDive: '潜水前',
+                navSkills: '重要技巧',
+                navDuringDive: '潜水中',
+                navPostDive: '潜水后',
+                navFAQ: '常见问题',
+                langSwitchTo: 'English',
+                langCurrent: '中文',
+                mainTitle: '开启你的第一次水下呼吸',
+                mainSubtitle: '欢迎来到奇妙的水下世界！这份指南将帮助你安全、自信地完成首次潜水体验。',
+                preDiveTitle: '潜水前：准备工作',
+                preDiveSubtitle: '充分的准备是成功潜水的一半。请确保你已完成以下步骤，这将让你在水下更加从容和安心。',
+                healthTitle: '1. 健康评估',
+                healthDesc: '诚实地评估你的健康状况。如果你有以下任何情况，请在潜水前咨询医生：',
+                health1: '心脏或心血管疾病',
+                health2: '哮喘或肺部疾病',
+                health3: '鼻窦、耳朵或呼吸道问题',
+                health4: '癫痫、糖尿病或意识丧失史',
+                health5: '怀孕',
+                shopTitle: '2. 选择正规潜店',
+                shopDesc: '选择一家信誉良好、持有国际认证（如PADI, SSI）的潜水中心。',
+                shop1: '教练资质齐全',
+                shop2: '装备维护良好',
+                shop3: '小班教学（一位教练对少数学生）',
+                shop4: '清晰的安全简报流程',
+                prepTitle: '3. 个人准备',
+                prepDesc: '潜水前保持良好状态，避免不适。',
+                prep1: '潜水前8小时内不要饮酒。',
+                prep2: '不要在疲劳或感冒时潜水。',
+                prep3: '保持水分充足，但下水前不要喝太多。',
+                prep4: '带上泳衣、毛巾、防晒霜和换洗衣物。',
+                skillsTitle: '重要技巧：三大核心技能',
+                skillsSubtitle: '掌握这三个基本技巧是安全潜水的基石。你的教练会详细教授，但提前了解能让你学得更快。',
+                skill1Title: '技巧一：持续呼吸',
+                skill1Desc: '这是潜水的第一黄金法则：<strong class="text-red-600">永远不要憋气！</strong>始终保持深长、缓慢的呼吸，以避免肺部过压损伤。',
+                skill1Visual: '想象你的呼吸像动画一样平稳。',
+                skill2Title: '技巧二：平衡耳压',
+                skill2Desc: '下潜时，水压会挤压你的耳朵。你需要主动平衡耳压以避免疼痛。应该在感到不适<strong class="text-blue-600">之前</strong>就开始做，并贯穿整个下潜过程。',
+                skill2Method: '常用方法 (阀式法):',
+                skill2Step1: '捏住鼻子。',
+                skill2Step2: '闭上嘴巴。',
+                skill2Step3: '轻轻地、持续地通过鼻子“呼气”，直到感觉耳朵“啵”地一声通了。',
+                skill3Title: '技巧三：水下沟通 (基本手势)',
+                skill3Desc: '水下不能说话，手势是你的语言。点击下方卡片学习最重要的几个手势。',
+                duringDiveTitle: '潜水中：水下行为准则',
+                duringDiveSubtitle: '当你真正进入水下世界时，请牢记以下准则。它们不仅关乎你的安全，也体现了对海洋的尊重。',
+                rule1Title: '勤做耳压平衡',
+                rule1Desc: '下潜时，每下潜一米或感到轻微压力时就做一次。脚朝下，头朝上更容易做。',
+                rule2Title: '紧跟潜伴和潜导',
+                rule2Desc: '始终与你的潜伴保持近距离，并随时注意潜导的位置和指示。',
+                rule3Title: '爱护海洋生物',
+                rule3Desc: '不要触摸、追逐或喂食任何海洋生物。我们是访客，请保持尊重。',
+                rule4Title: '监控你的仪表',
+                rule4Desc: '经常检查你的残压表（空气余量）和深度计，并及时向潜导汇报。',
+                postDiveTitle: '潜水后：安全须知',
+                postDiveSubtitle: '潜水结束不代表完全放松。完成以下步骤，为你的潜水之旅画上圆满的句号，并为下一次潜水做好准备。',
+                postDiveProc: '潜后流程',
+                postDive1: '与教练 debriefing，交流潜水中的感受和遇到的问题。',
+                postDive2: '清洗并归还装备。',
+                postDive3: '记录你的潜水日志，这是宝贵的经验积累。',
+                postDive4: '补充水分，好好休息。',
+                noFlyTitle: '重要：潜水后禁飞时间',
+                noFlyDesc: '潜水后体内会残留氮气，立即乘坐飞机会因压力变化导致减压病。请务必遵守安全表面间隔时间。',
+                faqTitle: '常见问题 (FAQ)',
+                faqSubtitle: '我们整理了一些新手最关心的问题。消除疑虑，能让你更专注于享受潜水的乐趣。',
+                q1: '耳朵疼怎么办？',
+                a1: '<p>这是最常见的问题，通常是因为耳压没有平衡好。如果感到疼痛：<br>1. 立即停止下潜，并稍微上升一点点，直到疼痛消失。<br>2. 再次尝试平衡耳压。<br>3. 如果仍然无法平衡，不要强行下潜，应结束潜水并告知潜导。安全第一！</p>',
+                q2: '我会不会没气了？',
+                a2: '<p>这是一个非常可以理解的担忧，但几乎不可能发生。原因如下：<br>1. 你的气瓶在下水前会充满气。<br>2. 你和潜导都配有残压表，会时常监控空气余量。<br>3. 潜导会在你的空气到达安全余量（通常是50 bar）之前很久就开始带你上升。<br>4. 放松、平稳地呼吸可以有效节省用气。</p>',
+                q3: '在水下看到鲨鱼会攻击我吗？',
+                a3: '<p>得益于电影的“宣传”，这是新手的经典恐惧。事实上，绝大多数鲨鱼对潜水员没有兴趣。它们通常很害羞，看到你会主动避开。只要你保持冷静，不挑衅它们，能看到鲨鱼反而是一次幸运的经历。听从潜导的指引，安静地观察即可。</p>',
+                q4: '我近视怎么办？可以戴隐形眼镜吗？',
+                a4: '<p>完全可以。戴日抛型的软性隐形眼镜是最好的选择，即使进水冲掉了也不心疼。如果你不习惯戴隐形，也可以选择有度数的潜水面镜，很多潜店都提供租赁服务，可以提前咨询。</p>',
+                footerEnjoy: '祝您有一个安全、难忘的第一次潜水体验！',
+                footerDisclaimer: '本指南仅供参考，请始终遵循您的专业潜水教练的指导。',
+                chartLabelInterval: '建议最短水面间隔 (小时)',
+                chartLabelSingle: '单次免减压潜水',
+                chartLabelMulti: '连续多日/多次潜水',
+                chartTitle: '潜水后禁飞时间建议',
+                chartAxisLabel: '小时 (Hours)',
+                chartTooltipLabel: ' 小时',
+                handSignals: [
+                    { name: 'OK (问/答)', emoji: '👌', meaning: '你还好吗？ / 我很好。这是最常用的手势，用于询问和回答。' },
+                    { name: '有问题', emoji: '✋', meaning: '我遇到了问题。手掌水平晃动，然后指向问题所在（如耳朵、面镜）。' },
+                    { name: '上升', emoji: '👍', meaning: '向上。拇指朝上，表示要结束潜水并上升。' },
+                    { name: '下潜', emoji: '👎', meaning: '向下。拇指朝下，表示准备好并开始下潜。' },
+                    { name: '空气不足', emoji: '✊', meaning: '我空气快用完了。用拳头敲击胸口，表示空气余量低。' },
+                    { name: '慢一点', emoji: '🖐️', meaning: '请慢一点。手掌向下，平缓地上下移动。' },
+                    { name: '危险', emoji: '🤜🤛', meaning: '附近有危险。双手握拳相对。' },
+                    { name: '看这里', emoji: '👀', meaning: '请看这里/看那个东西。用两根手指指向自己的眼睛，然后指向要看的东西。' }
+                ]
+            },
+            en: {
+                pageTitle: "Beginner's Guide to Scuba Diving",
+                headerTitle: "Beginner's Guide",
+                navPreDive: 'Pre-Dive',
+                navSkills: 'Key Skills',
+                navDuringDive: 'During Dive',
+                navPostDive: 'Post-Dive',
+                navFAQ: 'FAQ',
+                langSwitchTo: '中文',
+                langCurrent: 'English',
+                mainTitle: 'Take Your First Breath Underwater',
+                mainSubtitle: 'Welcome to the wonderful underwater world! This guide will help you complete your first dive safely and confidently.',
+                preDiveTitle: 'Pre-Dive: Preparation',
+                preDiveSubtitle: "Thorough preparation is half the battle. Ensure you've completed the following steps to be more calm and confident underwater.",
+                healthTitle: '1. Health Assessment',
+                healthDesc: 'Honestly assess your health. If you have any of the following conditions, consult a doctor before diving:',
+                health1: 'Heart or cardiovascular diseases',
+                health2: 'Asthma or lung diseases',
+                health3: 'Sinus, ear, or respiratory issues',
+                health4: 'History of epilepsy, diabetes, or loss of consciousness',
+                health5: 'Pregnancy',
+                shopTitle: '2. Choose a Reputable Dive Shop',
+                shopDesc: 'Select a dive center with a good reputation and international certification (e.g., PADI, SSI).',
+                shop1: 'Certified instructors',
+                shop2: 'Well-maintained equipment',
+                shop3: 'Small class sizes (one instructor to a few students)',
+                shop4: 'Clear safety briefing procedures',
+                prepTitle: '3. Personal Preparation',
+                prepDesc: 'Maintain good physical condition before your dive to avoid discomfort.',
+                prep1: 'Do not consume alcohol within 8 hours before diving.',
+                prep2: 'Do not dive if you are tired or have a cold.',
+                prep3: 'Stay hydrated, but don’t drink too much right before entering the water.',
+                prep4: 'Bring a swimsuit, towel, sunscreen, and a change of clothes.',
+                skillsTitle: 'Key Skills: The Three Core Techniques',
+                skillsSubtitle: 'Mastering these three basic skills is the cornerstone of safe diving. Your instructor will teach them in detail, but understanding them beforehand will help you learn faster.',
+                skill1Title: 'Skill 1: Continuous Breathing',
+                skill1Desc: 'This is the number one golden rule of diving: <strong class="text-red-600">Never hold your breath!</strong> Always maintain deep, slow breaths to avoid lung overexpansion injuries.',
+                skill1Visual: 'Imagine your breath is as smooth as this animation.',
+                skill2Title: 'Skill 2: Equalize Your Ears',
+                skill2Desc: 'As you descend, water pressure will squeeze your eardrums. You need to actively equalize to avoid pain. You should start <strong class="text-blue-600">before</strong> you feel discomfort and continue throughout the descent.',
+                skill2Method: 'Common Method (Valsalva Maneuver):',
+                skill2Step1: 'Pinch your nose.',
+                skill2Step2: 'Close your mouth.',
+                skill2Step3: 'Gently and continuously try to exhale through your nose until you feel your ears "pop".',
+                skill3Title: 'Skill 3: Underwater Communication (Basic Hand Signals)',
+                skill3Desc: "You can't talk underwater, so hand signals are your language. Click the cards below to learn the most important ones.",
+                duringDiveTitle: 'During the Dive: Underwater Code of Conduct',
+                duringDiveSubtitle: "When you truly enter the underwater world, please remember the following guidelines. They are not only about your safety but also show respect for the ocean.",
+                rule1Title: 'Equalize Frequently',
+                rule1Desc: 'Equalize every meter you descend or whenever you feel slight pressure. It is easier feet-first.',
+                rule2Title: 'Stay with Your Buddy & Guide',
+                rule2Desc: 'Always stay close to your dive buddy and keep an eye on your dive guide for instructions.',
+                rule3Title: 'Respect Marine Life',
+                rule3Desc: "Do not touch, chase, or feed any marine creatures. We are visitors, so let's be respectful.",
+                rule4Title: 'Monitor Your Gauges',
+                rule4Desc: 'Frequently check your pressure gauge (air supply) and depth gauge, and report to your guide as needed.',
+                postDiveTitle: 'Post-Dive: Safety Information',
+                postDiveSubtitle: "The dive ending doesn't mean it's time to completely relax. Complete these steps to properly conclude your dive and prepare for the next one.",
+                postDiveProc: 'Post-Dive Procedures',
+                postDive1: 'Debrief with your instructor, discussing your feelings and any issues during the dive.',
+                postDive2: 'Clean and return your equipment.',
+                postDive3: 'Log your dive. It’s a valuable record of your experience.',
+                postDive4: 'Hydrate and get some rest.',
+                noFlyTitle: 'Important: No-Fly Time After Diving',
+                noFlyDesc: 'Residual nitrogen remains in your body after diving. Flying too soon can cause decompression sickness due to pressure changes. Always observe the recommended surface interval.',
+                faqTitle: 'Frequently Asked Questions (FAQ)',
+                faqSubtitle: "We've compiled some of the most common questions from beginners. Clearing up doubts will let you focus more on enjoying the fun of diving.",
+                q1: 'What if my ears hurt?',
+                a1: "<p>This is the most common issue, usually from improper equalization. If you feel pain:<br>1. Stop descending immediately and ascend slightly until the pain disappears.<br>2. Try to equalize again.<br>3. If you still can't equalize, do not force the descent. End the dive and inform your guide. Safety first!</p>",
+                q2: 'Will I run out of air?',
+                a2: '<p>This is an understandable fear, but it is virtually impossible. Here’s why:<br>1. Your tank is filled before the dive.<br>2. Both you and your guide have pressure gauges to monitor air supply.<br>3. Your guide will begin the ascent long before your air reaches the safety reserve (usually 50 bar).<br>4. Breathing in a relaxed, steady manner helps conserve air.</p>',
+                q3: 'Will sharks attack me?',
+                a3: '<p>Thanks to movies, this is a classic fear. In reality, the vast majority of sharks are not interested in divers. They are often shy and will avoid you. As long as you remain calm and do not provoke them, seeing a shark is a lucky experience. Follow your guide’s instructions and observe quietly.</p>',
+                q4: 'I have bad eyesight. Can I wear contact lenses?',
+                a4: '<p>Absolutely. Daily disposable soft contact lenses are the best choice, as it\'s not a big loss if one gets flushed out. If you\'re not comfortable with contacts, you can also get a prescription dive mask. Many dive shops offer them for rent, so you can inquire in advance.</p>',
+                footerEnjoy: 'Wishing you a safe and unforgettable first diving experience!',
+                footerDisclaimer: 'This guide is for reference only. Always follow the instructions of your professional dive instructor.',
+                chartLabelInterval: 'Recommended Minimum Surface Interval (Hours)',
+                chartLabelSingle: 'Single No-Decompression Dive',
+                chartLabelMulti: 'Multiple Dives / Multi-Day Diving',
+                chartTitle: 'No-Fly Time Recommendations After Diving',
+                chartAxisLabel: 'Hours',
+                chartTooltipLabel: ' hours',
+                handSignals: [
+                    { name: 'OK (Question/Answer)', emoji: '👌', meaning: 'Are you okay? / I am okay. The most common signal for asking and answering.' },
+                    { name: 'Problem', emoji: '✋', meaning: 'I have a problem. Wave hand horizontally, then point to the source (e.g., ear, mask).' },
+                    { name: 'Ascend', emoji: '👍', meaning: 'Go up. Thumbs-up signal to end the dive and ascend.' },
+                    { name: 'Descend', emoji: '👎', meaning: 'Go down. Thumbs-down signal to start the descent.' },
+                    { name: 'Low on Air', emoji: '✊', meaning: 'I am low on air. Make a fist and tap it on your chest.' },
+                    { name: 'Slow Down', emoji: '🖐️', meaning: 'Please slow down. Palm facing down, move hand up and down slowly.' },
+                    { name: 'Danger', emoji: '🤜🤛', meaning: 'Danger nearby. Clench both hands into fists and bring them together.' },
+                    { name: 'Look', emoji: '👀', meaning: 'Look here / Look at that. Point two fingers at your own eyes, then point at the object.' }
+                ]
+            }
+        };
+
+        // --- 2. GLOBAL STATE ---
+        let currentLang = 'zh';
+        let noFlyChartInstance = null;
+
+        // --- 3. CORE FUNCTIONS ---
+
+        /**
+         * Switches the language of the page
+         * @param {string} lang - The language to switch to ('en' or 'zh')
+         */
+        function switchLanguage(lang) {
+            currentLang = lang;
+            document.documentElement.lang = lang;
+            
+            // Update all elements with data-lang-key attribute
+            document.querySelectorAll('[data-lang-key]').forEach(el => {
+                const key = el.getAttribute('data-lang-key');
+                if (translations[lang][key]) {
+                    // Use innerHTML to allow for tags like <strong> in translations
+                    el.innerHTML = translations[lang][key];
+                }
+            });
+
+            // Update language switch buttons text
+            const nextLang = lang === 'zh' ? 'en' : 'zh';
+            document.getElementById('lang-switch-desktop').textContent = translations[nextLang].langCurrent;
+            document.getElementById('lang-switch-mobile').textContent = translations[nextLang].langCurrent;
+
+            // Re-render dynamic content
+            renderHandSignals(lang);
+            createNoFlyChart(lang);
+        }
+
+        /**
+         * Renders the hand signal cards based on the current language
+         * @param {string} lang - The language to render ('en' or 'zh')
+         */
+        function renderHandSignals(lang) {
+            const signalsContainer = document.getElementById('hand-signals');
+            signalsContainer.innerHTML = ''; // Clear previous signals
+            const handSignalsData = translations[lang].handSignals;
+
+            handSignalsData.forEach(signal => {
+                const card = document.createElement('div');
+                card.className = 'p-4 border rounded-lg bg-gray-50 hover:bg-blue-100 cursor-pointer transition-colors duration-300 signal-card';
+                card.innerHTML = `
+                    <div class="text-5xl">${signal.emoji}</div>
+                    <div class="mt-2 font-semibold text-gray-800">${signal.name}</div>
+                    <div class="signal-meaning text-sm text-gray-600 mt-2 hidden">${signal.meaning}</div>
+                `;
+                signalsContainer.appendChild(card);
+            });
+        }
+
+        /**
+         * Creates or updates the No-Fly Time chart
+         * @param {string} lang - The language for chart labels ('en' or 'zh')
+         */
+        function createNoFlyChart(lang) {
+            if (noFlyChartInstance) {
+                noFlyChartInstance.destroy();
+            }
+            const ctx = document.getElementById('noFlyChart').getContext('2d');
+            noFlyChartInstance = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: [translations[lang].chartLabelSingle, translations[lang].chartLabelMulti],
+                    datasets: [{
+                        label: translations[lang].chartLabelInterval,
+                        data: [12, 18],
+                        backgroundColor: ['rgba(59, 130, 246, 0.6)', 'rgba(239, 68, 68, 0.6)'],
+                        borderColor: ['rgba(59, 130, 246, 1)', 'rgba(239, 68, 68, 1)'],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    indexAxis: 'y',
+                    scales: {
+                        x: {
+                            beginAtZero: true,
+                            title: { display: true, text: translations[lang].chartAxisLabel }
+                        }
+                    },
+                    plugins: {
+                        legend: { display: false },
+                        title: {
+                            display: true,
+                            text: translations[lang].chartTitle,
+                            font: { size: 16 }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: context => ` ${context.raw}${translations[lang].chartTooltipLabel}`
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        // --- 4. EVENT LISTENERS & INITIALIZATION ---
+
+        // Language switch buttons
+        document.getElementById('lang-switch-desktop').addEventListener('click', () => {
+            switchLanguage(currentLang === 'zh' ? 'en' : 'zh');
+        });
+        document.getElementById('lang-switch-mobile').addEventListener('click', () => {
+            switchLanguage(currentLang === 'zh' ? 'en' : 'zh');
+        });
+
+        // Hand signals interaction
+        document.getElementById('hand-signals').addEventListener('click', (e) => {
+            const card = e.target.closest('.signal-card');
+            if (card) {
+                const allMeanings = document.querySelectorAll('.signal-meaning');
+                const currentMeaning = card.querySelector('.signal-meaning');
+                const wasActive = !currentMeaning.classList.contains('hidden');
+
+                allMeanings.forEach(m => {
+                    m.classList.add('hidden');
+                    m.closest('.signal-card').classList.remove('bg-blue-200');
+                });
+                
+                if (!wasActive) {
+                    currentMeaning.classList.remove('hidden');
+                    card.classList.add('bg-blue-200');
+                }
+            }
+        });
+
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({ behavior: 'smooth' });
+            });
+        });
+
+        // Mobile navigation
+        document.getElementById('mobile-nav').addEventListener('change', function(e) {
+            document.querySelector(e.target.value).scrollIntoView({ behavior: 'smooth' });
+        });
+
+        // Accordion (FAQ) icon toggle
+        document.querySelectorAll('details').forEach((detail) => {
+            detail.addEventListener('toggle', function() {
+                const icon = this.querySelector('summary span:last-child');
+                icon.textContent = this.open ? '-' : '+';
+            });
+        });
+        
+        // Active nav link highlighting on scroll
+        const navLinks = document.querySelectorAll('.nav-link');
+        const sections = document.querySelectorAll('section');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    navLinks.forEach(link => {
+                        link.classList.toggle('active', link.getAttribute('href').substring(1) === entry.target.id);
+                    });
+                }
+            });
+        }, { rootMargin: '-50% 0px -50% 0px', threshold: 0 });
+        sections.forEach(section => observer.observe(section));
+
+
+        // --- 5. INITIAL PAGE LOAD ---
+        // Initialize the page with the default language (Chinese)
+        switchLanguage('zh');
+
+    });
+    </script>
+</body>
+</html>
